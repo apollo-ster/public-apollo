@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メッセージボード</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>メッセージボード</h1>
+
+  <% if (user) { %> <!--userという変数が存在していれば(ログインしていれば)-->
+    <p>ログイン中：<%= user.username %> さん</p> <!--<%= ... %> は、EJSで「その値をHTMLに出力する」構文-->
+
+    <!-- メッセージ投稿フォーム -->
+    <form method="POST" action="/send"> <!--  action="/send"：フォームを送信したときの送信先URL-->
+      <textarea name="message" placeholder="メッセージを入力" required></textarea> <!--required：必須入力（空のままでは送信できない）-->
+      <button type="submit">送信</button>
+    </form>
+
+    <a href="/logout">ログアウト</a>
+  <% } else { %>
+    <p><a href="/login">ログイン</a> または <a href="/register">登録</a>してください。</p>
+  <% } %>
+
+  <!-- メッセージ表示部分 -->
+  <ul>
+    <% messages.forEach(msg => { %>
+      <li><strong><%= msg.username %>:</strong> <%= msg.text %></li>
+    <% }) %>
+  </ul>
+</body>
+</html>
+
+<!--<% ... %> は「実行するけどHTMLに出力しない」
+<%= ... %> は「実行して結果をHTMLに出力する」-->
